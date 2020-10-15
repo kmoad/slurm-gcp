@@ -1,14 +1,14 @@
-cluster_name = "g1"
-project      = "<project>"
+cluster_name = "mp2"
+project      = "antihackathon-mutpred2"
 zone         = "us-west1-b"
 
-# network_name            = "<existing network name>"
-# subnetwork_name         = "<existing subnetwork name>"
+network_name            = "default"
+subnetwork_name         = "default"
 # shared_vpc_host_project = "<vpc host project>"
 
-# disable_controller_public_ips = true
-# disable_login_public_ips      = true
-# disable_compute_public_ips    = true
+disable_controller_public_ips = false
+disable_login_public_ips      = false
+disable_compute_public_ips    = false
 
 # ompi_version  = null # e.g. v3.1.x
 # slurm_version = "19.05-latest"
@@ -17,10 +17,9 @@ zone         = "us-west1-b"
 # controller_machine_type = "n1-standard-2"
 # controller_disk_type    = "pd-standard"
 # controller_disk_size_gb = 50
-# controller_labels = {
-#   key1 = "val1"
-#   key2 = "val2"
-# }
+controller_labels = {
+  slurm = "yes"
+}
 # controller_service_account = "default"
 # controller_scopes          = ["https://www.googleapis.com/auth/cloud-platform"]
 # cloudsql = {
@@ -36,10 +35,9 @@ zone         = "us-west1-b"
 # login_machine_type = "n1-standard-2"
 # login_disk_type    = "pd-standard"
 # login_disk_size_gb = 20
-# login_labels = {
-#   key1 = "val1"
-#   key2 = "val2"
-# }
+login_labels = {
+  slurm = "yes"
+}
 # login_node_count = 1
 # login_node_service_account = "default"
 # login_node_scopes          = [
@@ -50,13 +48,13 @@ zone         = "us-west1-b"
 # Optional network storage fields
 # network_storage is mounted on all instances
 # login_network_storage is mounted on controller and login instances
-# network_storage = [{
-#   server_ip     = "<storage host>"
-#   remote_mount  = "/home"
-#   local_mount   = "/home"
-#   fs_type       = "nfs"
-#   mount_options = null
-# }]
+network_storage = [{
+  server_ip     = "10.214.145.26"
+  remote_mount  = "/home"
+  local_mount   = "/home"
+  fs_type       = "nfs"
+  mount_options = "defaults,hard,intr"
+}]
 #
 # login_network_storage = [{
 #   server_ip     = "<storage host>"
@@ -69,10 +67,9 @@ zone         = "us-west1-b"
 # compute_image_machine_type = "n1-standard-2"
 # compute_image_disk_type    = "pd-standard"
 # compute_image_disk_size_gb = 20
-# compute_image_labels = {
-#   key1 = "val1"
-#   key2 = "val2"
-# }
+compute_image_labels = {
+  slurm = "yes"
+}
 
 # compute_node_service_account = "default"
 # compute_node_scopes          = [
@@ -81,14 +78,16 @@ zone         = "us-west1-b"
 # ]
 
 partitions = [
-  { name                 = "debug"
+  { name                 = "main"
     machine_type         = "n1-standard-2"
     static_node_count    = 0
     max_node_count       = 10
-    zone                 = "us-west1-a"
+    zone                 = "us-west1-b"
     compute_disk_type    = "pd-standard"
     compute_disk_size_gb = 20
-    compute_labels       = {}
+    compute_labels       = {
+      slurm = "yes"
+    }
     cpu_platform         = null
     gpu_count            = 0
     gpu_type             = null
